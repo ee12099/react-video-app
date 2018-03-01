@@ -6,22 +6,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 class ListView extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            videos: []
-        };
-
-        this.getVideos('http://localhost:5000/api/videos');
-    }
-
-    getVideos(url) {
-        let _this = this;
-        Axios.get(url)
-            .then(function (response) {
-                _this.setState({videos: response.data});
-            })
-            .catch(function (err) {
-                console.log(err);
-            });
     }
 
     render() {
@@ -29,11 +13,10 @@ class ListView extends Component {
             <div className="container">
                 <div className="row">
                     {
-                        this.state.videos.map(
-                            function (item, i) {
+                        this.props.items.map((item, index) => {
                                 return(
-                                    <div key={item._id} className="col-3">
-                                        <ListItem img={item.info.cover_url} title={item.info.title} subtitle={item.info.year} description={item.info.description}/>
+                                    <div key={index} onClick={() => this.props.select(item)} className="col-3" >
+                                        <ListItem img={item.cover_url} title={item.title} subtitle={item.index} description={item.description}/>
                                     </div>
                                 )
                             }
